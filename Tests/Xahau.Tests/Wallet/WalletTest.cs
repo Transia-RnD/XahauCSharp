@@ -523,7 +523,7 @@ namespace Xahau.Tests.Wallet.Tests.Sign
 
         //    Dictionary<string, dynamic> payment = icPayment;
         //    payment["Amount"] = new Dictionary<string, dynamic> {
-        //        { "currency", "XRP" },
+        //        { "currency", "XAH" },
         //        { "issuer", "rnURbz5HLbvqEq69b1B4TX6cUTNMmcrBqi" },
         //        { "value", "123.40" }
         //    };

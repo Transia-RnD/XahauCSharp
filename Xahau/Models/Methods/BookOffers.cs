@@ -35,7 +35,7 @@ namespace Xahau.Models.Methods
     /// 	"command": "book_offers",
     /// 	"taker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
     /// 	"taker_gets":{
-    /// 	"currency": "XRP"},
+    /// 	"currency": "XAH"},
     /// 	"taker_pays":{
     /// 	"currency": "USD",
     /// 	"issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"},

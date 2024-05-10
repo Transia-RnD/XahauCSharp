@@ -140,7 +140,7 @@ namespace Xahau.Models.Transactions
             var length = issue.Count;
             issue.TryGetValue("currency", out var currency);
             issue.TryGetValue("issuer", out var issuer);
-            return (length == 1 && currency == "XRP") || (length == 2 && currency is string && issuer is string);
+            return (length == 1 && currency == "XAH") || (length == 2 && currency is string && issuer is string);
         }
         /// <summary>
         /// Verify the common fields of a transaction.<br/>

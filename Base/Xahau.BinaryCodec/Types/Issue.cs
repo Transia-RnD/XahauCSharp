@@ -60,7 +60,7 @@ namespace Xahau.BinaryCodec.Types
         public static Issue FromParser(BinaryParser parser)
         {
             var currency = parser.Read(20);
-            if (new Currency(currency).ToString() == "XRP")
+            if (new Currency(currency).ToString() == "XAH")
             {
                 return new Issue(currency);
             }
@@ -79,7 +79,7 @@ namespace Xahau.BinaryCodec.Types
             var parser = new BufferParser(this.ToString());
             var currency = Currency.FromParser(parser) as Currency;
 
-            if (currency.ToString() == "XRP")
+            if (currency.ToString() == "XAH")
             {
                 return new IssueObject { Currency = currency.ToString() };
             }

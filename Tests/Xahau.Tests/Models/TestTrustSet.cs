@@ -30,7 +30,7 @@ namespace XahauTests.Xahau.Models
                 {"Account", "rUn84CUYbNjRoTQ6mSW7BVJPSVJNLb1QLo"},
                 {"LimitAmount",new Dictionary<string,dynamic>()
                 {
-                    {"currency","XRP"},
+                    {"currency","XAH"},
                     {"issuer","rcXY84C4g14iFp6taFXjjQGVeHqSCh9RX"},
                     {"value","4329.23"}
                 }},

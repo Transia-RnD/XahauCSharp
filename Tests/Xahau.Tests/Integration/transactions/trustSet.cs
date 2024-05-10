@@ -45,7 +45,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
             TrustSet tx = new TrustSet
             {
                 Account = runner.wallet.ClassicAddress,
-                LimitAmount = limitAmount
+                LimitAmount = limitAmount,
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);

@@ -36,7 +36,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
                 Amount = "100",
                 Destination = wallet2.ClassicAddress,
                 SettleDelay = 86400,
-                PublicKey = runner.wallet.PublicKey
+                PublicKey = runner.wallet.PublicKey,
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
 
@@ -54,7 +55,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
                     wallet2.ClassicAddress,
                     (int)paymentChannelResponse.TxJson.Sequence
                 ),
-                Amount = "100"
+                Amount = "100",
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);

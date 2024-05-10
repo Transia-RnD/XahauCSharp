@@ -21,7 +21,7 @@ public class Currency
     /// base constructor.<br/>
     /// base currency code = XRP
     /// </summary>
-    public Currency() { CurrencyCode = "XRP"; }
+    public Currency() { CurrencyCode = "XAH"; }
 
     /// <summary>
     /// The standard format for currency codes is a three-character string such as USD.<br/>
@@ -115,21 +115,21 @@ public class Currency
             }
         }
         set => Value = value.ToString(
-            CurrencyCode == "XRP"
+            CurrencyCode == "XAH"
                 ? "G0"
                 : "G15",
             CultureInfo.InvariantCulture);
     }
 
     /// <summary>
-    /// XRP token amount (non drops value)
+    /// XAH token amount (non drops value)
     /// </summary>
     [JsonIgnore]
     public decimal? ValueAsXrp
     {
         get
         {
-            if (CurrencyCode != "XRP" || string.IsNullOrWhiteSpace(Value))
+            if (CurrencyCode != "XAH" || string.IsNullOrWhiteSpace(Value))
             {
                 return null;
             }
@@ -140,7 +140,7 @@ public class Currency
         {
             if (value.HasValue)
             {
-                CurrencyCode = "XRP";
+                CurrencyCode = "XAH";
                 var val = value.Value * 1000000;
                 Value = val.ToString(format: "G0", CultureInfo.InvariantCulture);
             }
@@ -162,7 +162,7 @@ public class Currency
 
     public override string ToString()
     {
-        return CurrencyValidName == "XRP" ? $"XRP: {ValueAsXrp:0.######}" : $"{CurrencyValidName}: {ValueAsNumber:0.###############}";
+        return CurrencyValidName == "XAH" ? $"XAH: {ValueAsXrp:0.######}" : $"{CurrencyValidName}: {ValueAsNumber:0.###############}";
     }
 
     public override bool Equals(object o) { return o is Currency model && model.Issuer == Issuer && model.CurrencyCode == CurrencyCode; }

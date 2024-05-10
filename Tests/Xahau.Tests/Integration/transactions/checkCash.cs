@@ -30,14 +30,15 @@ namespace XahauTests.Xahau.ClientLib.Integration
             XahauWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
             // WAITING ON BINARY REFACTOR
             //Currency sendMax = new Currency {
-            //    CurrencyCode = "XRP",
+            //    CurrencyCode = "XAH",
             //    Value = "50"
             //};
             CheckCreate setupTx = new CheckCreate
             {
                 Account = runner.wallet.ClassicAddress,
                 Destination = wallet2.ClassicAddress,
-                SendMax = new Currency { ValueAsXrp = 50 }
+                SendMax = new Currency { ValueAsXrp = 50 },
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
@@ -52,7 +53,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
             {
                Account = wallet2.ClassicAddress,
                CheckID = checkId,
-               Amount = new Currency { ValueAsXrp = 50 }
+               Amount = new Currency { ValueAsXrp = 50 },
+               NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             await Utils.TestTransaction(runner.client, txJson, wallet2);

@@ -37,7 +37,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
                     CurrencyCode = "USD",
                     Issuer = runner.wallet.ClassicAddress,
                     Value = "10",
-                }
+                },
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
@@ -51,7 +52,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
             OfferCancel tx = new OfferCancel
             {
                Account = runner.wallet.ClassicAddress,
-               OfferSequence = sequence
+               OfferSequence = sequence,
+               NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);

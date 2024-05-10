@@ -135,7 +135,7 @@ namespace Xahau.Utils
             return (node.FinalFields?.Account ?? node.NewFields?.Account,
                 new Balance
                 {
-                    Currency = "XRP",
+                    Currency = "XAH",
                     Value = XrpConversion.DropsToXrp(value.Value.ToString())
                 });
         }

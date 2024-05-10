@@ -29,7 +29,7 @@ namespace Xahau.Models.Common
         {
             /// <summary> XRP currency code </summary>
             [JsonProperty("currency")]
-            public string Currency = "XRP";
+            public string Currency = "XAH";
         }
 
         /// <summary> currency with issuer </summary>

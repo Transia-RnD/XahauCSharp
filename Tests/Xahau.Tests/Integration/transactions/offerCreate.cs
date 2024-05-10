@@ -37,7 +37,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
                     CurrencyCode = "USD",
                     Issuer = runner.wallet.ClassicAddress,
                     Value = "10",
-                }
+                },
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);

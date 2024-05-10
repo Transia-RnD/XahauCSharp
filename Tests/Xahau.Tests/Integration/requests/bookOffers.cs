@@ -25,7 +25,7 @@ namespace XahauTests.Xahau.ClientLib.Integration
         [TestMethod]
         public async Task TestRequestMethod()
         {
-            TakerAmount takerGets = new TakerAmount { Currency = "XRP" };
+            TakerAmount takerGets = new TakerAmount { Currency = "XAH" };
             TakerAmount takerPays = new TakerAmount { Currency = "USD", Issuer = runner.wallet.ClassicAddress };
             BookOffersRequest request = new BookOffersRequest() { TakerGets = takerGets, TakerPays = takerPays };
             BookOffers bookOffers = await runner.client.BookOffers(request);

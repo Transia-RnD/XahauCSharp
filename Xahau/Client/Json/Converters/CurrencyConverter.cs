@@ -19,7 +19,7 @@ namespace Xahau.Client.Json.Converters
         {
             if (value is Currency currency)
             {
-                if (currency.CurrencyCode == "XRP")
+                if (currency.CurrencyCode == "XAH")
                 {
                     writer.WriteValue(currency.Value);
                 }
@@ -49,7 +49,7 @@ namespace Xahau.Client.Json.Converters
                 JsonToken.Null => null,
                 JsonToken.String => new Currency
                 {
-                    CurrencyCode = "XRP",
+                    CurrencyCode = "XAH",
                     Value = reader.Value?.ToString()
                 },
 
@@ -76,7 +76,7 @@ namespace Xahau.Client.Json.Converters
         {
             if (value is Common.IssuedCurrency currency)
             {
-                if (currency.Currency == "XRP")
+                if (currency.Currency == "XAH")
                 {
                     JToken t = JToken.FromObject(new Common.XRP());
                     t.WriteTo(writer);
@@ -107,7 +107,7 @@ namespace Xahau.Client.Json.Converters
                 JsonToken.Null => null,
                 JsonToken.String => new Common.IssuedCurrency()
                 {
-                    Currency = "XRP",
+                    Currency = "XAH",
                 },
 
                 JsonToken.StartObject => serializer.Deserialize<Common.IssuedCurrency>(reader),
