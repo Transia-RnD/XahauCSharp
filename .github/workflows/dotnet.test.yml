@@ -71,4 +71,4 @@ jobs:
     
     - name: Stop docker container
       if: always()
-      run: docker stop rippled-service
+      run: docker stop xahaud-service
