@@ -50,6 +50,23 @@ namespace Xahau.Sugar
             // TODO: Review To Fixed
             return fee.ToString(CultureInfo.InvariantCulture);
         }
+
+        public static async Task<string> GetFeeEstimateXrp(this IXahauClient client, string txBlob = null, int signers = 0)
+        {
+            FeeRequest request = new FeeRequest {
+                TxBlob = txBlob
+             };
+            Fee response = await client.Fee(request);
+            double? openLedgerFee = response.Drops.OpenLedgerFee;
+            if (openLedgerFee == null)
+            {
+                throw new XahauException("getFeeEstimateXrp: Could not get open_ledger_fee from fee");
+            }
+
+            decimal totalFee = (decimal)openLedgerFee;
+            // TODO: Review To Fixed
+            return totalFee.ToString(CultureInfo.InvariantCulture);
+        }
     }
 }
 
