@@ -25,7 +25,7 @@ namespace Xahau.Sugar
     public class AddressNTag
     {
         public string ClassicAddress { get; set; }
-        public int? Tag { get; set; }
+        public uint? Tag { get; set; }
     }
 
     public static class AutofillSugar
@@ -117,7 +117,7 @@ namespace Xahau.Sugar
             }
         }
 
-        public static AddressNTag GetClassicAccountAndTag(this string account, int? expectedTag)
+        public static AddressNTag GetClassicAccountAndTag(this string account, uint? expectedTag)
         {
             if (XahauAddressCodec.IsValidXAddress(account))
             {

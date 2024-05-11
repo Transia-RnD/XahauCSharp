@@ -20,7 +20,7 @@ namespace Xahau.Utils
         /// <param name="test">Whether this address is for use in Testnet.</param>
         /// <returns>X-Address.</returns>
         /// <category>Utilities</category>
-        public static string DeriveXAddress(string publicKey, int? tag, bool test)
+        public static string DeriveXAddress(string publicKey, uint? tag, bool test)
         {
             var classicAddress = XahauKeypairs.DeriveAddress(publicKey);
             return XahauAddressCodec.ClassicAddressToXAddress(classicAddress, tag, test);
