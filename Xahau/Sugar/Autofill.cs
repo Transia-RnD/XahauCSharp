@@ -14,6 +14,7 @@ using Xahau.Client.Exceptions;
 using Xahau.Models.Common;
 using Xahau.Models.Ledger;
 using Xahau.Models.Methods;
+using Xahau.Models.Utils;
 using Xahau.Utils;
 
 using static Xahau.AddressCodec.XahauAddressCodec;
@@ -32,6 +33,7 @@ namespace Xahau.Sugar
     {
 
         const int LEDGER_OFFSET = 20;
+        const int RESTRICTED_NETWORKS = 1024;
 
 
         /// <summary>
@@ -51,7 +53,12 @@ namespace Xahau.Sugar
 
             tx.SetValidAddresses();
 
-            //Flags.SetTransactionFlagsToNumber(tx);
+            Flags.SetTransactionFlagsToNumber(tx);
+
+            if (client.networkID > RESTRICTED_NETWORKS && tx["NetworkID"] == null)
+            {
+                tx["NetworkID"] = client.networkID;
+            }
             List<Task> promises = new List<Task>();
             tx.TryGetValue("TransactionType", out var tt);
             if (!tx.ContainsKey("Sequence"))
