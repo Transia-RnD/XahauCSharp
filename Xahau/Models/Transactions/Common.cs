@@ -15,6 +15,8 @@ using Xahau.Models.Common;
 using Xahau.Models.Ledger;
 using Xahau.Models.Utils;
 
+using static Xahau.Models.Common.Common;
+
 using Index = Xahau.Models.Utils.Index;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/common.ts
@@ -324,6 +326,8 @@ namespace Xahau.Models.Transactions
         public uint? SourceTag { get; set; }
         /// <inheritdoc />
         public uint? TicketSequence { get; set; }
+        /// <inheritdoc />
+        public List<HookParameterWrapper> HookParamters { get; set; }
 
         //todo not found fields -  SourceTag?: number, TicketSequence?: number
     }

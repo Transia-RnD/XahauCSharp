@@ -57,6 +57,12 @@ namespace Xahau.Models.Common
             public string Value { get; set; }
         }
 
+        /// <summary> currency with amount and issuer </summary>
+        public class AmountEntry
+        {
+            public IssuedCurrencyAmount Amount { get; set; }
+        }
+
         public class HookGrantWrapper
         {
             public HookGrant HookGrant { get; set; }
