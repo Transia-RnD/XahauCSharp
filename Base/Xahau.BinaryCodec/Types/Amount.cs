@@ -73,7 +73,7 @@ namespace Xahau.BinaryCodec.Types
                 case JTokenType.Integer:
                     return (ulong)token;
                 case JTokenType.Object:
-                    if ((string)token["currency"] == "XRP")
+                    if ((string)token["currency"] == "XAH")
                     {
                         return new Amount(token["value"].ToString());
                     }

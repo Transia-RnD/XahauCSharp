@@ -44,6 +44,7 @@ namespace XahauTests.Xahau.ClientLib.Integration
                 Amount = new Currency { ValueAsXrp = 100 },
                 Destination = wallet2.ClassicAddress,
                 FinishAfter = closeTime + 2,
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);

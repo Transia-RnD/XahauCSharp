@@ -45,6 +45,7 @@ namespace XahauTests.Xahau.ClientLib.Integration
                 Destination = wallet2.ClassicAddress,
                 CancelAfter = closeTime + 3,
                 FinishAfter = closeTime + 2,
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
@@ -63,7 +64,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
             {
                 Account = runner.wallet.ClassicAddress,
                 Owner = runner.wallet.ClassicAddress,
-                OfferSequence = sequence
+                OfferSequence = sequence,
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);

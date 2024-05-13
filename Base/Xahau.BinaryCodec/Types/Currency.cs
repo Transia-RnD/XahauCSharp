@@ -54,7 +54,7 @@ namespace Xahau.BinaryCodec.Types
             if (allZero)
             {
                 isNative = true;
-                return "XRP";
+                return "XAH";
             }
             if (zeroInNonCurrencyBytes)
             {
@@ -99,7 +99,7 @@ namespace Xahau.BinaryCodec.Types
         /// <exception cref="InvalidOperationException"></exception>
         public static Currency FromString(string str)
         {
-            if (str == "XRP")
+            if (str == "XAH")
             {
                 return Xrp;
             }
@@ -119,7 +119,7 @@ namespace Xahau.BinaryCodec.Types
 
         /// <summary>
         /// The following are static methods, legacy from when there was no
-        /// usage of Currency objects, just String with "XRP" ambiguity.
+        /// usage of Currency objects, just String with "XAH" ambiguity.
         /// </summary>
         /// <param name="currencyCode">currency code</param>
         /// <returns></returns>

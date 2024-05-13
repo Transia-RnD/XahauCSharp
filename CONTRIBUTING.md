@@ -45,9 +45,9 @@ For integration tests, we use a `rippled` node in standalone mode to test XRPLSw
 
 ```bash
 # sets up the rippled standalone Docker container - you can skip this step if you already have it set up
-docker run -p 6006:6006 --interactive -t --volume $PWD/.ci-config:/config/ xrpllabsofficial/xrpld:1.12.0 -a --start
+docker run -p 6006:6006 --interactive -t --volume $PWD/.ci-config:/config/ transia/xahau:latest -a --start
 dotnet build
-dotnet test--verbosity normal --filter "TestI"
+dotnet test --verbosity normal --filter "TestI"
 ```
 
 ## Generate reference docs

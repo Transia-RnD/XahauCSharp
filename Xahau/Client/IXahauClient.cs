@@ -43,15 +43,7 @@ namespace Xahau.Client
         double feeCushion { get; set; }
         string maxFeeXRP { get; set; }
         uint? networkID { get; set; }
-
-        /// <summary>
-        /// Set network id for transactions, required in network where Id > 1024
-        /// </summary>
-        /// <param name="networkID">network id</param>
-        public void SetNetworkId(uint? networkID)
-        {
-            this.networkID = networkID;
-        } 
+        string? buildVersion { get; set; }
 
         //event OnError OnError;
         //event OnConnected OnConnected;
@@ -262,12 +254,6 @@ namespace Xahau.Client
         #endregion
 
         /// <summary>
-        /// The amm_info method gets information about an Automated Market Maker (AMM) instance.
-        /// </summary>
-        /// <param name="request">An <see cref="AMMInfoRequest"/> request.</param>
-        /// <returns>An <see cref="AMMInfoResponse"/> response.</returns>
-        Task<AMMInfoResponse> AmmInfo(AMMInfoRequest request);
-        /// <summary>
         /// The book_offers method retrieves a list of offers, also known as the order book , between two currencies
         /// </summary>
         /// <param name="request">An <see cref="BookOffersRequest"/> request.</param>
@@ -306,6 +292,7 @@ namespace Xahau.Client
         public class ClientOptions : ConnectionOptions
         {
             public uint? NetworkID { get; set; }
+            public string? BuildVersion { get; set; }
             public double? feeCushion { get; set; }
             public string? maxFeeXRP { get; set; }
         }
@@ -314,6 +301,7 @@ namespace Xahau.Client
         public double feeCushion { get; set; }
         public string maxFeeXRP { get; set; }
         public uint? networkID { get; set; }
+        public string? buildVersion { get; set; }
 
         //public event OnError OnError;
         //public event OnConnected OnConnected;
@@ -340,6 +328,7 @@ namespace Xahau.Client
             feeCushion = options?.feeCushion ?? 1.2;
             maxFeeXRP = options?.maxFeeXRP ?? "2";
             networkID = options?.NetworkID;
+            buildVersion = options?.BuildVersion;
 
             connection = new Connection(server, options);
             //connection.OnError += (e, em, m, d) => OnError?.Invoke(e, em, m, d);
@@ -351,6 +340,14 @@ namespace Xahau.Client
             //connection.OnPeerStatusChange += (s) => OnPeerStatusChange?.Invoke(s);
             //connection.OnConsensusPhase += (s) => OnConsensusPhase?.Invoke(s);
             //connection.OnPathFind += (s) => OnPathFind?.Invoke(s);
+        }
+
+        public async Task GetServerInfo()
+        {
+            ServerInfoRequest request = new ServerInfoRequest();
+            ServerInfo serverInfo = await this.ServerInfo(request);
+            this.networkID = serverInfo.Info.NetworkID ?? 0;
+            this.buildVersion = serverInfo.Info.BuildVersion;
         }
 
         public async Task ChangeServer(string server, ClientOptions? options = null)
@@ -380,6 +377,7 @@ namespace Xahau.Client
         public async Task Connect()
         {
             await connection.Connect();
+            await this.GetServerInfo();
         }
 
         /// <inheritdoc />
@@ -476,12 +474,6 @@ namespace Xahau.Client
         public Task<AccountTransactions> AccountTransactions(AccountTransactionsRequest request)
         {
             return this.GRequest<AccountTransactions, AccountTransactionsRequest>(request);
-        }
-
-        /// <inheritdoc />
-        public Task<AMMInfoResponse> AmmInfo(AMMInfoRequest request)
-        {
-            return this.GRequest<AMMInfoResponse, AMMInfoRequest>(request);
         }
 
         /// <inheritdoc />

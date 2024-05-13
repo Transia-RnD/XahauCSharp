@@ -2,6 +2,8 @@
 
 using System;
 using Xahau.Client.Json.Converters;
+using Xahau.Models.Common;
+using Xahau.Models.Methods;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/ledger/Escrow.ts
@@ -33,7 +35,8 @@ namespace Xahau.Models.Ledger
         /// <summary>
         /// The amount of XRP, in drops, to be delivered by the held payment.
         /// </summary>
-        public string Amount { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
 
         /// <summary>
         /// A PREIMAGE-SHA-256 crypto-condition, as hexadecimal.<br/>

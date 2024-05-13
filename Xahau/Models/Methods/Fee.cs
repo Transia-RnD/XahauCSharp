@@ -21,6 +21,11 @@ namespace Xahau.Models.Methods
         {
             Command = "fee";
         }
+        /// <summary>
+        /// The Tx Blob of the tx that you want to estimate the fee for.<br/>
+        /// </summary>
+        [JsonProperty("tx_blob")]
+        public string TxBlob { get; set; }
     }
     /// <summary>
     /// Response expected from a  <see cref="FeeRequest"/>.

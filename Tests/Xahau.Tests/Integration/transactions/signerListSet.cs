@@ -37,8 +37,9 @@ namespace XahauTests.Xahau.ClientLib.Integration
                 SignerEntries = new List<SignerEntryWrapper>()
                 {
                     s1w,
-                    s2w
-                }
+                    s2w,
+                },
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);

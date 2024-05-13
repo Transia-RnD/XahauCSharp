@@ -37,7 +37,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
             TicketCreate tx = new TicketCreate
             {
                 Account = runner.wallet.ClassicAddress,
-                TicketCount = 2
+                TicketCount = 2,
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);

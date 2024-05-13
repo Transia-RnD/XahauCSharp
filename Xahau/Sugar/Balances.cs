@@ -92,7 +92,7 @@ namespace Xahau.Sugar
                 var xrp_balance = await GetXrpBalance(client, address, options?.LedgerHash, options?.LedgerIndex);
                 if (!string.IsNullOrWhiteSpace(xrp_balance))
                 {
-                    balances.Insert(0, new Balance { Currency = "XRP", Value = xrp_balance });
+                    balances.Insert(0, new Balance { Currency = "XAH", Value = xrp_balance });
                 }
 
             }

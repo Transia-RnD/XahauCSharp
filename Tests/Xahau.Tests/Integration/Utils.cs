@@ -34,7 +34,8 @@ namespace XahauTests.Xahau.ClientLib.Integration
             {
                 Account = masterAccount,
                 Destination = wallet.ClassicAddress,
-                Amount = new ICurrency { Value = "400000000", CurrencyCode = "XRP" }
+                Amount = new ICurrency { Value = "400000000", CurrencyCode = "XAH" },
+                NetworkID = client.networkID,
             };
             var values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(payment.ToJson());
             Submit response = await client.Submit(values, XahauWallet.FromSeed(masterSecret));

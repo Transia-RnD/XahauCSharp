@@ -2,16 +2,19 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Numerics;
 using System.Threading.Tasks;
 
 using Xahau.AddressCodec;
+using Xahau.BinaryCodec;
 using Xahau.Client;
 using Xahau.Client.Exceptions;
 using Xahau.Models.Common;
 using Xahau.Models.Ledger;
 using Xahau.Models.Methods;
+using Xahau.Models.Utils;
 using Xahau.Utils;
 
 using static Xahau.AddressCodec.XahauAddressCodec;
@@ -23,13 +26,14 @@ namespace Xahau.Sugar
     public class AddressNTag
     {
         public string ClassicAddress { get; set; }
-        public int? Tag { get; set; }
+        public uint? Tag { get; set; }
     }
 
     public static class AutofillSugar
     {
 
         const int LEDGER_OFFSET = 20;
+        const int RESTRICTED_NETWORKS = 1024;
 
 
         /// <summary>
@@ -49,16 +53,17 @@ namespace Xahau.Sugar
 
             tx.SetValidAddresses();
 
-            //Flags.SetTransactionFlagsToNumber(tx);
+            Flags.SetTransactionFlagsToNumber(tx);
+
+            if (client.networkID > RESTRICTED_NETWORKS && tx["NetworkID"] == null)
+            {
+                tx["NetworkID"] = client.networkID;
+            }
             List<Task> promises = new List<Task>();
-            bool hasTT = tx.TryGetValue("TransactionType", out var tt);
+            tx.TryGetValue("TransactionType", out var tt);
             if (!tx.ContainsKey("Sequence"))
             {
                 promises.Add(client.SetNextValidSequenceNumber(tx));
-            }
-            if (!tx.ContainsKey("Fee"))
-            {
-                promises.Add(client.CalculateFeePerTransactionType(tx, signersCount ?? 0));
             }
             if (!tx.ContainsKey("LastLedgerSequence"))
             {
@@ -70,6 +75,11 @@ namespace Xahau.Sugar
                 //promises.Add(client.CheckAccountDeleteBlockers(tx));
             }
             await Task.WhenAll(promises);
+
+            if (!tx.ContainsKey("Fee"))
+            {
+                await client.CalculateFeePerTransactionType(tx, signersCount ?? 0);
+            }
             string jsonData = JsonConvert.SerializeObject(tx);
             return tx;
         }
@@ -95,12 +105,12 @@ namespace Xahau.Sugar
         public static void ValidateAccountAddress(this Dictionary<string, dynamic> tx, string accountField, string tagField)
         {
             // if X-address is given, convert it to classic address
-            var ainfo = tx.TryGetValue(accountField, out var aField);
+            tx.TryGetValue(accountField, out var aField);
             
             AddressNTag classicAccount = GetClassicAccountAndTag((string)aField, null);
             tx[accountField] = classicAccount.ClassicAddress;
 
-            var tinfo = tx.TryGetValue(tagField, out var tField);
+            tx.TryGetValue(tagField, out var tField);
 
             // XRPL: Does bool or int. Smells.
             if (classicAccount.Tag != null)
@@ -114,7 +124,7 @@ namespace Xahau.Sugar
             }
         }
 
-        public static AddressNTag GetClassicAccountAndTag(this string account, int? expectedTag)
+        public static AddressNTag GetClassicAccountAndTag(this string account, uint? expectedTag)
         {
             if (XahauAddressCodec.IsValidXAddress(account))
             {
@@ -149,59 +159,12 @@ namespace Xahau.Sugar
             tx.TryAdd("Sequence", data.AccountData.Sequence);
         }
 
-        public static async Task<BigInteger> FetchAccountDeleteFee(this IXahauClient client)
-        {
-            ServerStateRequest request = new ServerStateRequest();
-            ServerState data = await client.ServerState(request);
-            uint? fee = data.State.ValidatedLedger.ReserveInc;
-
-            if (fee == null)
-            {
-                await Task.FromException(new XahauException("Could not fetch Owner Reserve."));
-            }
-            return BigInteger.Parse(fee.ToString());
-        }
-
         public static async Task CalculateFeePerTransactionType(this IXahauClient client, Dictionary<string, dynamic> tx, int signersCount = 0)
         {
-            var netFeeXRP = await client.GetFeeXrp();
-            var netFeeDrops = XrpConversion.XrpToDrops(netFeeXRP);
-            var baseFee = BigInteger.Parse(netFeeDrops, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent);
-
-            // EscrowFinish Transaction with Fulfillment
-            bool has_fulfillment = tx.TryGetValue("Fulfillment", out var Fulfillment);
-            if (tx["TransactionType"] == "EscrowFinish" && has_fulfillment)
-            {
-                double fulfillmentBytesSize = Math.Ceiling((double)tx["Fulfillment"].Length / 2);
-                // 10 drops × (33 + (Fulfillment size in bytes / 16))
-                double resp = (33 + (fulfillmentBytesSize / 16));
-                bool product = BigInteger.TryParse(ScaleValue(netFeeDrops, 33 + (fulfillmentBytesSize / 16)), out var result);
-                baseFee = BigInteger.Parse(Math.Ceiling(((decimal)result)).ToString());
-            }
-
-            // AccountDelete Transaction
-            if (tx["TransactionType"] == "AccountDelete")
-            {
-                baseFee = await FetchAccountDeleteFee(client);
-            }
-
-            /*
-            * Multi-signed Transaction
-            * 10 drops × (1 + Number of Signatures Provided)
-            */
-            if (signersCount > 0)
-            {
-                baseFee = BigInteger.Add(baseFee, BigInteger.Parse(ScaleValue(netFeeDrops, 1 + signersCount)));
-            }
-
-            var maxFeeDrops = XrpConversion.XrpToDrops(client.maxFeeXRP);
-            var totalFee = tx["TransactionType"] == "AccountDelete" ? baseFee : BigInteger.Min(baseFee, BigInteger.Parse(maxFeeDrops));
-            tx.TryAdd("Fee", Math.Ceiling(((decimal)totalFee)).ToString());
-        }
-
-        public static string ScaleValue(string value, double multiplier)
-        {
-            return (double.Parse(value)! * multiplier).ToString();
+            tx["SigningPubKey"] = "";
+            tx["Fee"] = "0";
+            string txBlob = XahauBinaryCodec.Encode(tx);
+            tx["Fee"] = await client.GetFeeEstimateXrp(txBlob, signersCount);
         }
 
         public static async Task SetLatestValidatedLedgerSequence(this IXahauClient client, Dictionary<string, dynamic> tx)

@@ -31,6 +31,7 @@ namespace XahauTests.Xahau.ClientLib.Integration
             {
                 Account = runner.wallet.ClassicAddress,
                 RegularKey = wallet2.ClassicAddress,
+                NetworkID = runner.client.networkID,
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);

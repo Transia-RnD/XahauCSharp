@@ -39,8 +39,32 @@ namespace Xahau.Models.Transactions
     {
     }
 
+    public interface IHookExecution
+    {
+        string HookAccount { get; set; }
+        uint HookEmitCount { get; set; }
+        uint HookExecutionIndex { get; set; }
+        string HookHash { get; set; }
+        string HookInstructionCount { get; set; }
+        uint HookResult { get; set; }
+        string HookReturnCode { get; set; }
+        string HookReturnString { get; set; }
+        uint HookStateChangeCount { get; set; }
+        uint Flags { get; set; }
+    }
+
+    public interface IHookEmission
+    {
+        string EmittedTxnID { get; set; }
+        string HookAccount { get; set; }
+        string HookHash { get; set; }
+        string EmitNonce { get; set; }
+    }
+
     public interface TransactionMetadata
     {
+        List<IHookExecution>? HookExecutions { get; set; }
+        List<IHookEmission>? HookEmissions { get; set; }
         List<INode> AffectedNodes { get; set; }
         [JsonConverter(typeof(CurrencyConverter))]
         [JsonProperty("DeliveredAmount")]

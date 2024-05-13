@@ -65,26 +65,6 @@ namespace Xahau.Models.Transactions
                     await ValidateEscrowFinish(tx);
                     break;
 
-                case "NFTokenAcceptOffer":
-                    await ValidateNFTokenAcceptOffer(tx);
-                    break;
-
-                case "NFTokenBurn":
-                    await ValidateNFTokenBurn(tx);
-                    break;
-
-                case "NFTokenCancelOffer":
-                    await ValidateNFTokenCancelOffer(tx);
-                    break;
-
-                case "NFTokenCreateOffer":
-                    await ValidateNFTokenCreateOffer(tx);
-                    break;
-
-                case "NFTokenMint":
-                    await ValidateNFTokenMint(tx);
-                    break;
-
                 case "OfferCancel":
                     await ValidateOfferCancel(tx);
                     break;
@@ -124,24 +104,7 @@ namespace Xahau.Models.Transactions
                 case "TrustSet":
                     await ValidateTrustSet(tx);
                     break;
-                case "AMMBid":
-                    await ValidateAMMBid(tx);
-                    break;
-                case "AMMDeposit":
-                    await ValidateAMMDeposit(tx);
-                    break;
-                case "AMMCreate":
-                    await ValidateAMMCreate(tx);
-                    break;
-                case "AMMDelete":
-                    await ValidateAMMDelete(tx);
-                    break;
-                case "AMMVote":
-                    await ValidateAMMVote(tx);
-                    break;
-                case "AMMWithdraw":
-                    await ValidateAMMWithdraw(tx);
-                    break;
+                
                 default:
                     throw new ValidationException($"Invalid field TransactionType: {type}");
             }
