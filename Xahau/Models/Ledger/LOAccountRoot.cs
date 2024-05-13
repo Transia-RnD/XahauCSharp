@@ -167,5 +167,26 @@ namespace Xahau.Models.Ledger
         /// </summary>
         public uint? TicketCount { get; set; }
 
+        public ulong? HookStateCount { get; set; }
+        
+        public string? HookNamespaces { get; set; }
+
+        public uint? RewardLgrFirst { get; set; }
+
+        public uint? RewardLgrLast { get; set; }
+
+        public DateTime? RewardTime { get; set; }
+
+        public uint? RewardAccumulator { get; set; }
+        
+        public uint? FirstNFTokenSequence { get; set; }
+
+        public string? ImportSequence { get; set; }
+        
+        public string? GovernanceFlags { get; set; }
+        
+        public string? GovernanceMarks { get; set; }
+        
+        public string? AccountIndex { get; set; }
     }
 }

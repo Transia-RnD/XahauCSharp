@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 
+using System;
+using Xahau.Client.Json.Converters;
 using Xahau.Models.Common;
+using Xahau.Models.Methods;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/ledger/RippleState.ts
@@ -53,16 +56,19 @@ namespace Xahau.Models.Ledger
         /// A negative balance indicates that the low account has issued currency to the high account.<br/>
         /// The issuer is always the neutral value ACCOUNT_ONE.
         /// </summary>
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency Balance { get; set; }
         /// <summary>
         /// The limit that the low account has set on the trust line.<br/>
         /// The issuer is the address of the low account that set this limit.
         /// </summary>
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency LowLimit { get; set; }
         /// <summary>
         /// The limit that the high account has set on the trust line.<br/>
         /// The issuer is the address of the high account that set this limit.
         /// </summary>
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency HighLimit { get; set; }
         /// <summary>
         /// The identifying hash of the transaction that most recently modified this object.
@@ -102,5 +108,9 @@ namespace Xahau.Models.Ledger
         /// As a special case, the value 0 is equivalent to 1 billion, or face value.
         /// </summary>
         public uint? HighQualityOut { get; set; }
+
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency? LockedBalance { get; set; }
+        public uint? LockCount { get; set; }
     }
 }

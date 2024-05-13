@@ -122,9 +122,21 @@ namespace Xahau.Models
         /// </summary>
         Amendments,
         /// <summary>
+        /// A Ticket tracks an account sequence number that has been set aside for future use.
+        /// </summary>
+        Check,
+        /// <summary>
+        /// A record of preauthorization for sending payments to an account that requires authorization.
+        /// </summary>
+        DepositPreauth,
+        /// <summary>
         /// Contains links to other objects.
         /// </summary>
         DirectoryNode,
+        /// <summary>
+        /// Contains Emitted Txn.
+        /// </summary>
+        EmittedTxn,
         /// <summary>
         /// Contains XRP held for a conditional payment.
         /// </summary>
@@ -133,10 +145,26 @@ namespace Xahau.Models
         /// Singleton object with consensus-approved base transaction cost and reserve requirements.
         /// </summary>
         FeeSettings,
+        Hook,
+        HookDefinition,
+        HookState,
+        ImportVLSequence,
         /// <summary>
         /// Lists of prior ledger versions' hashes for history lookup.
         /// </summary>
         LedgerHashes,
+        /// <summary>
+        /// List of validators currently believed to be offline.
+        /// </summary>
+        NegativeUNL,
+        /// <summary>
+        /// Create offers to buy or sell NFTs.
+        /// </summary>
+        NFTokenOffer,
+        /// <summary>
+        /// Ledger structure for recording NFTokens.
+        /// </summary>
+        NFTokenPage,
         /// <summary>
         /// An order to make a currency trade.
         /// </summary>
@@ -155,30 +183,11 @@ namespace Xahau.Models
         /// </summary>
         SignerList,
         /// <summary>
-        /// List of validators currently believed to be offline.
-        /// </summary>
-        NegativeUNL,
-        /// <summary>
-        /// Create offers to buy or sell NFTs.
-        /// </summary>
-        NFTokenOffer,
-        /// <summary>
-        /// Ledger structure for recording NFTokens.
-        /// </summary>
-        NFTokenPage,
-        /// <summary>
         /// A list of addresses for multi-signing transactions.
         /// </summary>
         Ticket,
-        /// <summary>
-        /// A Ticket tracks an account sequence number that has been set aside for future use.
-        /// </summary>
-        Check,
-        /// <summary>
-        /// A record of preauthorization for sending payments to an account that requires authorization.
-        /// </summary>
-        DepositPreauth,
-        AMM
+        UNLReport,
+        URIToken,
     }
 
     public enum StreamType

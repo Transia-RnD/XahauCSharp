@@ -402,6 +402,37 @@ namespace Xahau.Models.Transactions
         public string SigningPublicKey { get; set; }
     }
 
+    public class HookExecutionWrapper
+    {
+        public HookExecution HookExecution { get; set; }
+    }
+
+     public class HookExecution
+    {
+        public string HookAccount { get; set; }
+        public uint HookEmitCount { get; set; }
+        public uint HookExecutionIndex { get; set; }
+        public string HookHash { get; set; }
+        public string HookInstructionCount { get; set; }
+        public uint HookResult { get; set; }
+        public string HookReturnCode { get; set; }
+        public string HookReturnString { get; set; }
+        public uint HookStateChangeCount { get; set; }
+        public uint Flags { get; set; }
+    }
+    public class HookEmissionWrapper
+    {
+        public HookEmission HookEmission { get; set; }
+    }
+
+     public class HookEmission
+    {
+        public string EmittedTxnID { get; set; }
+        public string HookAccount { get; set; }
+        public string HookHash { get; set; }
+        public string EmitNonce { get; set; }
+    }
+
     /// <summary>
     /// Transaction metadata is a section of data that gets added to a transaction after it is processed.<br/>
     /// Any transaction that gets included in a ledger has metadata, regardless of whether it is successful.<br/>
@@ -412,6 +443,9 @@ namespace Xahau.Models.Transactions
     /// </summary>
     public class Meta
     {
+        public List<HookExecutionWrapper>? HookExecutions { get; set; }
+        public List<HookEmissionWrapper>? HookEmission { get; set; }
+    
         /// <summary>
         /// List of ledger objects that were created, deleted, or modified by this transaction, and specific changes to each.
         /// </summary>
